@@ -5,9 +5,12 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'Starlight Docs',
+      title: 'Sosos base',
       // Autres options de configuration...
       // Ajoutez ou modifiez la section sidebar comme suit :
+      customCss: [
+        './src/styles/custom.css',
+      ],
       sidebar: [
         {
           label: 'Getting Started',

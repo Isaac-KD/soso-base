@@ -1,0 +1,42 @@
+---
+// src/components/HubCard.astro
+interface Props {
+  href: string;
+  theme: string; // ex: "m1", "p1", etc.
+  icon: string;
+  blocNum: string;
+  title: string;
+  freq: string;
+  stars: number;
+  strategy: string;
+}
+
+const { href, theme, icon, blocNum, title, freq, stars, strategy } = Astro.props;
+
+// Petite fonction pour générer les étoiles dynamiquement
+const renderStars = (count: number) => {
+  return Array.from({ length: 5 }).map((_, i) => (
+    `<span class="star ${i >= count ? 'off' : ''}">★</span>`
+  )).join('');
+}
+---
+
+<a class={`bloc-card ${theme}`} href={href}>
+  <div class="card-header">
+    <div class="card-icon">{icon}</div>
+    <div class="card-header-text">
+      <div class="card-num">{blocNum}</div>
+      <div class="card-title">{title}</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-desc">
+      <slot /> 
+    </div>
+    <div class="card-meta">
+      <span class="meta-pill meta-freq">{freq}</span>
+      <div class="meta-rent" title="Rentabilité" set:html={renderStars(stars)} />
+    </div>
+    <div class="strategy"><strong>Stratégie :</strong> {strategy}</div>
+  </div>
+</a>
