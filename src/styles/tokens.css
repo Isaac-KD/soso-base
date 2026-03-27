@@ -1,0 +1,56 @@
+/**
+ * Design tokens for StudyVault.
+ *
+ * Import once in DashboardLayout.astro via:
+ *   <link rel="stylesheet" href="/src/styles/tokens.css" />
+ * or via Astro's global style import in the layout component.
+ *
+ * Never hardcode colours or spacing values in components;
+ * always reference a token from this file.
+ */
+
+:root {
+  /* ── Colour palette ─────────────────────────────── */
+  --color-bg:           #0f0f13;
+  --color-surface:      #16161d;
+  --color-surface-2:    #1d1d26;
+  --color-border:       #2a2a38;
+
+  /* ── Typography ─────────────────────────────────── */
+  --color-text:         #e8e4da;
+  --color-text-dim:     #7a7690;
+  --color-text-faint:   #3d3a50;
+
+  /* ── Semantic accents (per-matiere set at runtime) ─ */
+  --color-accent:       #7c9ec9; /* fallback */
+
+  /* ── Spacing scale ──────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ── Border radius ──────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+
+  /* ── Layout ─────────────────────────────────────── */
+  --sidebar-width: 220px;
+
+  /* ── Font families ──────────────────────────────── */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'Outfit', system-ui, sans-serif;
+  --font-mono:  'DM Mono', 'Menlo', monospace;
+
+  /* ── Motion ─────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 180ms;
+  --duration-slow: 450ms;
+}

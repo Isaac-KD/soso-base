@@ -1,0 +1,119 @@
+---
+/**
+ * ProgressPanel.astro
+ *
+ * Displays per-matière progress bars based on fiche count.
+ * The "max" used for percentage calculation is a configurable prop
+ * so the parent can tune the scale as content grows.
+ */
+
+import type { Matiere } from '../../types';
+
+interface Props {
+  matieres: Matiere[];
+  /** Value that corresponds to 100% of the bar */
+  maxFiches?: number;
+  /** Show at most this many matieres */
+  limit?: number;
+}
+
+const {
+  matieres,
+  maxFiches = 20,
+  limit     = 4,
+} = Astro.props;
+
+const visible = matieres.slice(0, limit);
+const pct     = (fiches: number) => Math.min(100, Math.round((fiches / maxFiches) * 100));
+---
+
+<section class="panel" aria-label="Progression par matière">
+  <div class="panel__header">
+    <h2 class="panel__title">Progression</h2>
+  </div>
+
+  <ul class="progress-list" role="list">
+    {visible.map((m: Matiere) => (
+      <li class="progress-item">
+        <div class="progress-item__header">
+          <span class="progress-item__name">{m.nom}</span>
+          <span class="progress-item__count" style={`color: ${m.couleur}`}>
+            {m.fiches} fiches
+          </span>
+        </div>
+        <div
+          class="progress-bar"
+          role="progressbar"
+          aria-valuenow={m.fiches}
+          aria-valuemin={0}
+          aria-valuemax={maxFiches}
+          aria-label={`${m.nom} : ${m.fiches} fiches`}
+        >
+          <div
+            class="progress-bar__fill"
+            style={`width: ${pct(m.fiches)}%; background: ${m.couleur}`}
+          ></div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  /* ── Panel shell — shared with other panels ─────── */
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+  }
+
+  .panel__title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--color-text);
+  }
+
+  /* ── List ──────────────────────────────────────── */
+  .progress-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* ── Item ──────────────────────────────────────── */
+  .progress-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 7px;
+    font-size: 13px;
+  }
+
+  .progress-item__name  { color: var(--color-text); }
+  .progress-item__count { font-family: var(--font-mono); font-size: 12px; }
+
+  /* ── Bar ───────────────────────────────────────── */
+  .progress-bar {
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-bar__fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.6s var(--ease-out-expo);
+  }
+</style>

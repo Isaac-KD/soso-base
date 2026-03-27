@@ -1,0 +1,46 @@
+---
+/**
+ * StatsRow.astro
+ *
+ * Horizontal row of KPI stat cards.
+ * Accepts an array of StatItem so the dashboard can control
+ * which metrics are shown without touching this component.
+ */
+
+import type { StatItem } from '../../types';
+import StatCard from '../ui/StatCard.astro';
+
+interface Props {
+  stats: StatItem[];
+}
+
+const { stats } = Astro.props;
+---
+
+<section class="stats-row animate-fade-up" aria-label="Statistiques">
+  {stats.map((stat: StatItem) => (
+    <StatCard {...stat} />
+  ))}
+</section>
+
+<style>
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  /* ── Responsive ────────────────────────────────── */
+  @media (max-width: 900px) {
+    .stats-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .stats-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
