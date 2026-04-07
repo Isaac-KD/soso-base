@@ -1,0 +1,40 @@
+---
+// src/pages/liens.astro
+
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import Sidebar from '../components/layout/Sidebar.astro';
+import { sidebarData } from '../data/navigation';
+---
+
+<DashboardLayout title="L3 Info · Liens & outils" description="Outils pratiques pour la licence">
+  
+  <Sidebar sections={sidebarData} />
+
+  <main class="main content-page">
+    <h1>🔗 Liens & Outils</h1>
+    <p>Bienvenue sur la page des outils ! On construira le contenu ici plus tard.</p>
+  </main>
+
+</DashboardLayout>
+
+<style>
+  .main {
+    flex: 1; 
+    min-width: 0;
+    overflow-y: auto;
+    display: flex; 
+    flex-direction: column;
+    padding: 40px;
+  }
+
+  .content-page h1 {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .content-page p {
+    color: var(--text2);
+    font-size: 1.1rem;
+  }
+</style>

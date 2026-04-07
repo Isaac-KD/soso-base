@@ -1,59 +1,31 @@
 ---
-/**
- * DashboardLayout.astro
- *
- * The single HTML shell for every dashboard page.
- * Handles: <head>, font loading, global CSS, noise overlay.
- * Pages simply drop their content into the default <slot />.
- */
+// Importation du CSS global que nous venons de créer
+import '../styles/global.css';
 
 interface Props {
-  /** <title> for the page */
-  title?: string;
-  /** Optional meta description */
+  title: string;
   description?: string;
 }
 
-const {
-  title       = 'StudyVault',
-  description = 'Mes fiches & exercices',
+const { 
+  title, 
+  description = "Base de connaissances pour la Licence Informatique" 
 } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description} />
-  <title>{title} — StudyVault</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Global styles (tokens + resets) -->
-  <style is:global>
-    @import '/src/styles/global.css';
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300;1,9..144,600&family=Epilogue:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Grain texture — purely decorative -->
-  <div class="noise-overlay" aria-hidden="true"></div>
-
-  <div class="shell">
-    <slot />
-  </div>
+  <slot />
 </body>
 </html>
-
-<style>
-  .shell {
-    display: flex;
-    min-height: 100vh;
-  }
-</style>

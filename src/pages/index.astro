@@ -1,0 +1,26 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import Sidebar from '../components/layout/Sidebar.astro';
+
+// On importe notre configuration depuis le fichier de données
+import { sidebarData } from '../data/navigation';
+---
+
+<DashboardLayout title="Licence Informatique Intensive· · Hub " description="Base de connaissances">
+  
+  <Sidebar sections={sidebarData} />
+
+  <main class="main">
+    </main>
+
+</DashboardLayout>
+
+<style>
+  .main {
+    flex: 1; 
+    min-width: 0;
+    overflow-y: auto;
+    display: flex; 
+    flex-direction: column;
+  }
+</style>

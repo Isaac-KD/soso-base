@@ -1,161 +1,72 @@
 ---
-/**
- * Sidebar.astro
- *
- * Primary navigation sidebar.
- * Receives the active route so it can highlight the current item.
- */
-
-import type { NavItem } from '../../types';
-import { NAV_ITEMS, NAV_BOTTOM } from '../../data/studyvault';
+import type { NavSection } from '../../types';
+import '../../styles/components/sidebar.css';
 
 interface Props {
-  /** Current page pathname, e.g. "/" or "/fiches" */
-  activePath?: string;
+  sections: NavSection[];
 }
 
-const { activePath = '/' } = Astro.props;
+const { sections = [] } = Astro.props;
 
-const isActive = (href: string) => href === activePath;
+// 1. On récupère le chemin de la page actuelle (ex: "/", "/liens", etc.)
+const currentPath = Astro.url.pathname;
+
+// 2. Petite fonction pour vérifier si un lien est actif
+const isItemActive = (href?: string) => {
+  if (!href) return false;
+  // Si c'est l'accueil, on veut une correspondance stricte
+  if (href === '/') return currentPath === '/';
+  // Sinon, on vérifie si l'URL courante commence par ce lien
+  // (ça permet de garder le menu actif même si on est sur /liens/details)
+  return currentPath.startsWith(href);
+};
 ---
 
-<aside class="sidebar" aria-label="Navigation principale">
-  <!-- Logo -->
-  <div class="logo">
-    <span class="logo-mark" aria-hidden="true">S</span>
-    <span class="logo-text">StudyVault</span>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-logo">L3</div>
+    <div>
+      <div class="brand-name">Info Hub</div>
+      <div class="brand-sub">Licence Informatique</div>
+    </div>
   </div>
 
-  <!-- Primary nav -->
-  <nav>
-    <ul class="nav-list" role="list">
-      {NAV_ITEMS.map((item: NavItem) => (
-        <li>
-          <a
-            href={item.href}
-            class:list={['nav-item', { 'nav-item--active': isActive(item.href) }]}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-          >
-            <span class="nav-icon" aria-hidden="true">{item.icon}</span>
-            <span>{item.label}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  <div class="sb-search">
+    <span class="ic">⌕</span>
+    <input type="text" id="sbSearch" placeholder="Recherche rapide…" autocomplete="off">
+    <span class="kbd-hint">⌘K</span>
+  </div>
 
-  <!-- Bottom actions (settings, etc.) -->
-  <div class="nav-bottom">
-    {NAV_BOTTOM.map((item: NavItem) => (
-      <a href={item.href} class="nav-item">
-        <span class="nav-icon" aria-hidden="true">{item.icon}</span>
-        <span>{item.label}</span>
-      </a>
-    ))}
+  {sections.map(section => (
+    <nav class="nav-section">
+      {section.title && <div class="nav-lbl">{section.title}</div>}
+      
+      {section.items.map(item => {
+        // 3. On calcule dynamiquement si ce lien spécifique est actif !
+        const active = isItemActive(item.href);
+        
+        return (
+          <a href={item.href || "#"} class={`nav-item ${active ? 'active' : ''}`}>
+            {item.icon && <span class="ic">{item.icon}</span>}
+            {item.dotColor && <span class="dot" style={`background-color:${item.dotColor}`}></span>}
+            
+            <span>{item.label}</span>
+            
+            {item.badge && <span class="badge">{item.badge}</span>}
+            {item.count && <span class="n">{item.count}</span>}
+          </a>
+        )
+      })}
+    </nav>
+  ))}
+
+  <div class="sb-footer">
+    <a href="https://github.com/ton-utilisateur/ton-repo" target="_blank" rel="noopener noreferrer" class="promo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="Google Drive" class="promo-icon-img" />
+      <div>
+        <div class="promo-name">Licence Informatique Intensive</div>
+        <div class="promo-yr">2025–2026</div>
+      </div>
+    </a>
   </div>
 </aside>
-
-<style>
-  /* ── Shell ─────────────────────────────────────── */
-  .sidebar {
-    width: var(--sidebar-width);
-    min-height: 100vh;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    flex-shrink: 0;
-
-    display: flex;
-    flex-direction: column;
-    padding: var(--space-8) var(--space-4);
-    gap: var(--space-2);
-
-    background: var(--color-surface);
-    border-right: 1px solid var(--color-border);
-    overflow-y: auto;
-  }
-
-  /* ── Logo ──────────────────────────────────────── */
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: 0 var(--space-2) var(--space-8);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-5);
-    flex-shrink: 0;
-  }
-
-  .logo-mark {
-    width: 34px;
-    height: 34px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #7C9EC9, #B07CC9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-serif);
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    flex-shrink: 0;
-  }
-
-  .logo-text {
-    font-family: var(--font-serif);
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--color-text);
-  }
-
-  /* ── Nav list ──────────────────────────────────── */
-  .nav-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-  }
-
-  /* ── Nav item ──────────────────────────────────── */
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: 9px var(--space-3);
-    border-radius: var(--radius-sm);
-    color: var(--color-text-dim);
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    transition:
-      background var(--duration-base),
-      color var(--duration-base);
-  }
-
-  .nav-item:hover,
-  .nav-item--active {
-    background: var(--color-surface-2);
-    color: var(--color-text);
-  }
-
-  .nav-item--active {
-    font-weight: 500;
-  }
-
-  .nav-icon {
-    font-size: 15px;
-    width: 18px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  /* ── Bottom section ────────────────────────────── */
-  .nav-bottom {
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-4);
-    margin-top: var(--space-2);
-    flex-shrink: 0;
-  }
-</style>

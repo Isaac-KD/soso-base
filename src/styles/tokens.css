@@ -1,56 +1,38 @@
-/**
- * Design tokens for StudyVault.
- *
- * Import once in DashboardLayout.astro via:
- *   <link rel="stylesheet" href="/src/styles/tokens.css" />
- * or via Astro's global style import in the layout component.
- *
- * Never hardcode colours or spacing values in components;
- * always reference a token from this file.
- */
+/* src/styles/tokens.css */
 
 :root {
-  /* ── Colour palette ─────────────────────────────── */
-  --color-bg:           #0f0f13;
-  --color-surface:      #16161d;
-  --color-surface-2:    #1d1d26;
-  --color-border:       #2a2a38;
+  /* Couleurs de fond et bordures */
+  --bg:         #07080e;
+  --bg2:        #0c0e18;
+  --bg3:        #12152200;
+  --bg3s:       #121522;
+  --border:     #191d2e;
+  --border2:    #222640;
+  
+  /* Textes */
+  --text:       #dce2f2;
+  --text2:      #7b86a6;
+  --text3:      #384060;
 
-  /* ── Typography ─────────────────────────────────── */
-  --color-text:         #e8e4da;
-  --color-text-dim:     #7a7690;
-  --color-text-faint:   #3d3a50;
+  /* Couleurs d'accentuation */
+  --blue:       #4a9eff;
+  --blue-glow:  rgba(74,158,255,.14);
+  --blue-faint: rgba(74,158,255,.07);
+  --green:      #3dffa0;
+  --orange:     #ff9f4a;
+  --pink:       #f472b6;
+  --purple:     #a78bfa;
+  --yellow:     #fde38a;
+  --cyan:       #22d3ee;
 
-  /* ── Semantic accents (per-matiere set at runtime) ─ */
-  --color-accent:       #7c9ec9; /* fallback */
+  /* Typographie */
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Epilogue', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', monospace;
 
-  /* ── Spacing scale ──────────────────────────────── */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
-  --space-8:  32px;
-  --space-10: 40px;
-  --space-12: 48px;
-
-  /* ── Border radius ──────────────────────────────── */
-  --radius-sm: 6px;
-  --radius-md: 9px;
-  --radius-lg: 12px;
-
-  /* ── Layout ─────────────────────────────────────── */
-  --sidebar-width: 220px;
-
-  /* ── Font families ──────────────────────────────── */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans:  'Outfit', system-ui, sans-serif;
-  --font-mono:  'DM Mono', 'Menlo', monospace;
-
-  /* ── Motion ─────────────────────────────────────── */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 150ms;
-  --duration-base: 180ms;
-  --duration-slow: 450ms;
+  /* Tailles et Rayons (Border-radius) */
+  --sidebar: 252px;
+  --r:   8px;
+  --r2:  12px;
+  --r3:  16px;
 }
